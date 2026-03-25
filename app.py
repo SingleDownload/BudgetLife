@@ -47,10 +47,33 @@ st.markdown("""
         --text-color: #0D3B5E;
     }
     .stApp { background-color: #FFFFFF; color: #0D3B5E; }
-    .stSidebar > div { background-color: #F7FBFE; }
-    .stButton > button { background-color: #1B5E8C; color: white; border: none; }
-    .stButton > button:hover { background-color: #0D3B5E; color: white; }
-    .stSelectbox label, .stMultiSelect label, .stSlider label, .stRadio label { color: #0D3B5E; }
+
+    /* ── Sidebar — force readable text on light background ── */
+    section[data-testid="stSidebar"] { background-color: #F7FBFE !important; }
+    section[data-testid="stSidebar"] * { color: #0D3B5E !important; }
+    section[data-testid="stSidebar"] .stMarkdown p,
+    section[data-testid="stSidebar"] .stMarkdown h2,
+    section[data-testid="stSidebar"] .stMarkdown h5,
+    section[data-testid="stSidebar"] .stMarkdown span,
+    section[data-testid="stSidebar"] .stRadio label,
+    section[data-testid="stSidebar"] .stRadio label span,
+    section[data-testid="stSidebar"] .stRadio label div,
+    section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label,
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+    section[data-testid="stSidebar"] small,
+    section[data-testid="stSidebar"] .stCaption,
+    section[data-testid="stSidebar"] label {
+        color: #0D3B5E !important;
+    }
+    section[data-testid="stSidebar"] hr { border-color: #C8DDE8 !important; }
+
+    /* ── Buttons ── */
+    .stButton > button { background-color: #1B5E8C; color: white !important; border: none; }
+    .stButton > button:hover { background-color: #0D3B5E; color: white !important; }
+
+    /* ── Form labels ── */
+    .stSelectbox label, .stMultiSelect label, .stSlider label, .stRadio label { color: #0D3B5E !important; }
 
     /* ── Custom component styles ── */
     .main-header {
@@ -90,6 +113,7 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
         font-size: 0.95rem;
+        color: #0D3B5E;
     }
     .strategy-box {
         background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
@@ -97,6 +121,7 @@ st.markdown("""
         padding: 1rem 1.2rem;
         border-radius: 0 8px 8px 0;
         margin: 0.8rem 0;
+        color: #0D3B5E;
     }
     .warning-box {
         background: #FFF8E1;
@@ -104,6 +129,7 @@ st.markdown("""
         padding: 1rem 1.2rem;
         border-radius: 0 8px 8px 0;
         margin: 0.8rem 0;
+        color: #0D3B5E;
     }
     div[data-testid="stMetric"] {
         background: #F7FBFE;
