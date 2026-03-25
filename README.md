@@ -24,10 +24,9 @@ BudgetLife is an AI-powered financial management platform. This dashboard analyz
 ## 📁 Files
 | File | Description |
 |------|-------------|
-| `app.py` | Main Streamlit application (all 7 tabs) |
+| `app.py` | Main Streamlit application (all 7 tabs, theme embedded) |
 | `BudgetLife_Synthetic_Dataset.csv` | Synthetic survey dataset (2,000 respondents) |
 | `requirements.txt` | Python dependencies |
-| `.streamlit/config.toml` | Streamlit theme configuration |
 
 ## 🛠 Local Setup
 ```bash

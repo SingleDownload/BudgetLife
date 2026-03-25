@@ -39,6 +39,20 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+    /* ── Theme overrides (replaces .streamlit/config.toml) ── */
+    :root {
+        --primary-color: #1B5E8C;
+        --background-color: #FFFFFF;
+        --secondary-background-color: #F7FBFE;
+        --text-color: #0D3B5E;
+    }
+    .stApp { background-color: #FFFFFF; color: #0D3B5E; }
+    .stSidebar > div { background-color: #F7FBFE; }
+    .stButton > button { background-color: #1B5E8C; color: white; border: none; }
+    .stButton > button:hover { background-color: #0D3B5E; color: white; }
+    .stSelectbox label, .stMultiSelect label, .stSlider label, .stRadio label { color: #0D3B5E; }
+
+    /* ── Custom component styles ── */
     .main-header {
         font-size: 2.2rem;
         font-weight: 700;
