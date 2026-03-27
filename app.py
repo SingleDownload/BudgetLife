@@ -29,22 +29,59 @@ st.set_page_config(page_title="BudgetLife Analytics Dashboard", page_icon="💰"
 st.markdown("""
 <style>
     :root { --primary-color: #1B5E8C; --background-color: #FFFFFF; --secondary-background-color: #F7FBFE; --text-color: #0D3B5E; }
-    .stApp { background-color: #FFFFFF; color: #0D3B5E; }
+    .stApp { background-color: #FFFFFF !important; color: #0D3B5E !important; }
+
+    /* Force all text dark globally */
+    .stApp p, .stApp span, .stApp label, .stApp div, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+    .stApp [data-testid="stMarkdownContainer"], .stApp [data-testid="stMarkdownContainer"] p { color: #0D3B5E !important; }
+
+    /* Sidebar */
     section[data-testid="stSidebar"] { background-color: #F7FBFE !important; }
     section[data-testid="stSidebar"] * { color: #0D3B5E !important; }
     section[data-testid="stSidebar"] hr { border-color: #C8DDE8 !important; }
+
+    /* Metric boxes — force visible text */
+    div[data-testid="stMetric"] { background: #F7FBFE !important; border: 1px solid #D0D8E0 !important; padding: 0.8rem; border-radius: 8px; }
+    div[data-testid="stMetric"] * { color: #0D3B5E !important; }
+    div[data-testid="stMetric"] [data-testid="stMetricValue"] { color: #1B5E8C !important; font-weight: 700 !important; }
+    div[data-testid="stMetric"] [data-testid="stMetricLabel"] { color: #0D3B5E !important; }
+    div[data-testid="stMetric"] [data-testid="stMetricDelta"] { color: #27AE60 !important; }
+
+    /* Slider labels and values */
+    .stSlider label, .stSlider div, .stSlider span { color: #0D3B5E !important; }
+    .stSlider [data-testid="stTickBarMin"], .stSlider [data-testid="stTickBarMax"] { color: #0D3B5E !important; }
+
+    /* Selectbox, multiselect, radio */
+    .stSelectbox label, .stMultiSelect label, .stSlider label, .stRadio label { color: #0D3B5E !important; }
+    .stSelectbox div[data-baseweb="select"] span { color: #0D3B5E !important; }
+
+    /* Dataframe */
+    .stDataFrame { color: #0D3B5E !important; }
+
+    /* Buttons */
     .stButton > button { background-color: #1B5E8C; color: white !important; border: none; }
     .stButton > button:hover { background-color: #0D3B5E; color: white !important; }
-    .stSelectbox label, .stMultiSelect label, .stSlider label, .stRadio label { color: #0D3B5E !important; }
-    .main-header { font-size: 2.2rem; font-weight: 700; color: #0D3B5E; text-align: center; padding: 0.5rem 0; }
-    .sub-header { font-size: 1rem; color: #1B5E8C; text-align: center; margin-bottom: 1.5rem; }
-    .metric-card { background: linear-gradient(135deg, #1B5E8C 0%, #0D3B5E 100%); padding: 1.2rem; border-radius: 12px; color: white; text-align: center; box-shadow: 0 4px 15px rgba(13,59,94,0.2); }
-    .metric-value { font-size: 2rem; font-weight: 700; }
-    .metric-label { font-size: 0.85rem; opacity: 0.9; margin-top: 0.3rem; }
-    .insight-box { background: #F0F8FF; border-left: 4px solid #1B5E8C; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.95rem; color: #0D3B5E; }
-    .strategy-box { background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%); border-left: 4px solid #27AE60; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 0.8rem 0; color: #0D3B5E; }
-    .warning-box { background: #FFF8E1; border-left: 4px solid #F9A825; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 0.8rem 0; color: #0D3B5E; }
-    div[data-testid="stMetric"] { background: #F7FBFE; border: 1px solid #E0E0E0; padding: 0.8rem; border-radius: 8px; }
+
+    /* Expander */
+    .streamlit-expanderHeader { color: #0D3B5E !important; }
+    details summary span { color: #0D3B5E !important; }
+
+    /* Tabs and captions */
+    .stCaption, .stCaption p { color: #555555 !important; }
+
+    /* Custom cards */
+    .main-header { font-size: 2.2rem; font-weight: 700; color: #0D3B5E !important; text-align: center; padding: 0.5rem 0; }
+    .sub-header { font-size: 1rem; color: #1B5E8C !important; text-align: center; margin-bottom: 1.5rem; }
+    .metric-card { background: linear-gradient(135deg, #1B5E8C 0%, #0D3B5E 100%); padding: 1.2rem; border-radius: 12px; color: white !important; text-align: center; box-shadow: 0 4px 15px rgba(13,59,94,0.2); }
+    .metric-card * { color: white !important; }
+    .metric-value { font-size: 2rem; font-weight: 700; color: white !important; }
+    .metric-label { font-size: 0.85rem; opacity: 0.9; margin-top: 0.3rem; color: white !important; }
+    .insight-box { background: #F0F8FF; border-left: 4px solid #1B5E8C; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.95rem; color: #0D3B5E !important; }
+    .insight-box * { color: #0D3B5E !important; }
+    .strategy-box { background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%); border-left: 4px solid #27AE60; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 0.8rem 0; color: #0D3B5E !important; }
+    .strategy-box * { color: #0D3B5E !important; }
+    .warning-box { background: #FFF8E1; border-left: 4px solid #F9A825; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 0.8rem 0; color: #0D3B5E !important; }
+    .warning-box * { color: #0D3B5E !important; }
 </style>
 """, unsafe_allow_html=True)
 
