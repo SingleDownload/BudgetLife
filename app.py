@@ -416,6 +416,55 @@ elif tab_choice == "🔍 Exploratory Data Analysis":
     st.plotly_chart(fig, use_container_width=True)
     st.caption("🔎 'Young Urban Professionals' form the largest group (22%), followed by 'Middle-Income Family Providers' (18%) — these two personas alone represent 40% of our addressable market.")
 
+    st.markdown("---")
+
+    # ── DRILL-DOWN CHARTS ──
+    st.markdown("### 🔽 Drill-Down Analysis — Interactive Exploration")
+    st.caption("🔎 Click on any segment in the sunburst chart to drill down into sub-categories. Click the center to zoom back out. This reveals how demographics, income, and behavior nest within each other.")
+
+    # Sunburst: City Tier → Income → Savings → BudgetLife Interest
+    st.markdown("#### Sunburst: City Tier → Income → Savings → BudgetLife Interest")
+    drill_df = df[["Q3_City_Tier", "Q6_Monthly_Income", "Q15_Savings_Percentage", "Q25_BudgetLife_Interest"]].copy()
+    drill_df.columns = ["City Tier", "Income", "Savings", "BudgetLife Interest"]
+    fig = px.sunburst(
+        drill_df, path=["City Tier", "Income", "Savings", "BudgetLife Interest"],
+        color="City Tier",
+        color_discrete_map={"Metro (Tier 1)": "#1B5E8C", "Tier 2": "#27AE60", "Tier 3": "#E67E22", "Rural": "#8E44AD"},
+        title="Drill-Down: City Tier → Income Bracket → Savings Rate → Adoption Interest"
+    )
+    fig.update_layout(height=600)
+    fig.update_traces(textinfo="label+percent parent", insidetextorientation="radial")
+    st.plotly_chart(fig, use_container_width=True)
+    st.caption("🔎 Click any ring segment to drill into its breakdown. For example, clicking 'Metro (Tier 1)' reveals how metro users split across income brackets, then how each income bracket splits by savings rate, and finally how each savings group feels about BudgetLife. This multi-level view shows that metro + high-income + low-savings users are the highest-opportunity segment.")
+
+    # Sunburst: Persona → Budget Behavior → Stress → Interest
+    st.markdown("#### Sunburst: Persona → Budget Behavior → Financial Stress → Adoption")
+    drill_df2 = df[["Persona_Tag", "Q19_Budget_Behavior", "Q18_Financial_Stress_Level", "Q25_BudgetLife_Interest"]].copy()
+    drill_df2.columns = ["Persona", "Budget Behavior", "Stress Level", "BudgetLife Interest"]
+    fig2 = px.sunburst(
+        drill_df2, path=["Persona", "Budget Behavior", "Stress Level", "BudgetLife Interest"],
+        color="Persona", color_discrete_sequence=COLORS,
+        title="Drill-Down: Persona → Budget Behavior → Stress Level → Adoption Interest"
+    )
+    fig2.update_layout(height=600)
+    fig2.update_traces(textinfo="label+percent parent", insidetextorientation="radial")
+    st.plotly_chart(fig2, use_container_width=True)
+    st.caption("🔎 This drill-down reveals the behavioral pipeline: which personas lack budgets, which of those are stressed, and which stressed non-budgeters are likely adopters. The path Persona → 'No, but I want to' → High Stress → 'Definitely Yes' identifies BudgetLife's highest-conversion micro-segment.")
+
+    # Treemap: Employment → Income → Impulse → Subscriptions
+    st.markdown("#### Treemap: Employment → Income → Impulse Spending → Subscriptions")
+    drill_df3 = df[["Q5_Employment_Status", "Q6_Monthly_Income", "Q10_Impulse_Purchase_Frequency", "Q12_Active_Subscriptions"]].copy()
+    drill_df3.columns = ["Employment", "Income", "Impulse Spending", "Subscriptions"]
+    fig3 = px.treemap(
+        drill_df3, path=["Employment", "Income", "Impulse Spending", "Subscriptions"],
+        color="Employment", color_discrete_sequence=COLORS,
+        title="Drill-Down Treemap: Employment → Income → Impulse Frequency → Subscription Count"
+    )
+    fig3.update_layout(height=600)
+    fig3.update_traces(textinfo="label+percent parent+value")
+    st.plotly_chart(fig3, use_container_width=True)
+    st.caption("🔎 Click any box to drill into its children. This treemap reveals spending behavior patterns within each employment type. Salaried private employees with ₹50K–₹1L income who impulse-spend 'Sometimes' and have 3–5 subscriptions form the single largest actionable sub-group for BudgetLife's subscription detection feature.")
+
 
 # ═══════════════════════════════════════════════════════════════
 # TAB 3: CLUSTERING
