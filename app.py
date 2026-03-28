@@ -31,9 +31,10 @@ st.markdown("""
     :root { --primary-color: #1B5E8C; --background-color: #FFFFFF; --secondary-background-color: #F7FBFE; --text-color: #0D3B5E; }
     .stApp { background-color: #FFFFFF !important; color: #0D3B5E !important; }
 
-    /* Force all text dark globally */
-    .stApp p, .stApp span, .stApp label, .stApp div, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+    /* Force all text dark globally — but NOT inside metric-cards */
+    .stApp p, .stApp span, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
     .stApp [data-testid="stMarkdownContainer"], .stApp [data-testid="stMarkdownContainer"] p { color: #0D3B5E !important; }
+    .stApp div:not(.metric-card):not(.metric-value):not(.metric-label) { color: #0D3B5E; }
 
     /* Sidebar */
     section[data-testid="stSidebar"] { background-color: #F7FBFE !important; }
@@ -72,10 +73,10 @@ st.markdown("""
     /* Custom cards */
     .main-header { font-size: 2.2rem; font-weight: 700; color: #0D3B5E !important; text-align: center; padding: 0.5rem 0; }
     .sub-header { font-size: 1rem; color: #1B5E8C !important; text-align: center; margin-bottom: 1.5rem; }
-    .metric-card { background: linear-gradient(135deg, #1B5E8C 0%, #0D3B5E 100%); padding: 1.2rem; border-radius: 12px; color: white !important; text-align: center; box-shadow: 0 4px 15px rgba(13,59,94,0.2); }
-    .metric-card * { color: white !important; }
-    .metric-value { font-size: 2rem; font-weight: 700; color: white !important; }
-    .metric-label { font-size: 0.85rem; opacity: 0.9; margin-top: 0.3rem; color: white !important; }
+    .metric-card { background: linear-gradient(135deg, #1B5E8C 0%, #0D3B5E 100%); padding: 1.2rem; border-radius: 12px; color: #FFFFFF !important; text-align: center; box-shadow: 0 4px 15px rgba(13,59,94,0.2); }
+    .stApp .metric-card, .stApp .metric-card div, .stApp .metric-card span, .stApp .metric-card p, .stApp .metric-card * { color: #FFFFFF !important; }
+    .stApp .metric-value { font-size: 2rem; font-weight: 700; color: #FFFFFF !important; }
+    .stApp .metric-label { font-size: 0.85rem; opacity: 0.85; margin-top: 0.3rem; color: #D0E8F5 !important; }
     .insight-box { background: #F0F8FF; border-left: 4px solid #1B5E8C; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.95rem; color: #0D3B5E !important; }
     .insight-box * { color: #0D3B5E !important; }
     .strategy-box { background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%); border-left: 4px solid #27AE60; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 0.8rem 0; color: #0D3B5E !important; }
@@ -455,13 +456,14 @@ elif tab_choice == "🔍 Exploratory Data Analysis":
     st.markdown("#### Treemap: Employment → Income → Impulse Spending → Subscriptions")
     drill_df3 = df[["Q5_Employment_Status", "Q6_Monthly_Income", "Q10_Impulse_Purchase_Frequency", "Q12_Active_Subscriptions"]].copy()
     drill_df3.columns = ["Employment", "Income", "Impulse Spending", "Subscriptions"]
+    drill_df3_agg = drill_df3.groupby(["Employment", "Income", "Impulse Spending", "Subscriptions"]).size().reset_index(name="Count")
     fig3 = px.treemap(
-        drill_df3, path=["Employment", "Income", "Impulse Spending", "Subscriptions"],
-        color="Employment", color_discrete_sequence=COLORS,
+        drill_df3_agg, path=[px.Constant("All Respondents"), "Employment", "Income", "Impulse Spending", "Subscriptions"],
+        values="Count", color="Count", color_continuous_scale="Teal",
         title="Drill-Down Treemap: Employment → Income → Impulse Frequency → Subscription Count"
     )
     fig3.update_layout(height=600)
-    fig3.update_traces(textinfo="label+percent parent+value")
+    fig3.update_traces(textinfo="label+value")
     st.plotly_chart(fig3, use_container_width=True)
     st.caption("🔎 Click any box to drill into its children. This treemap reveals spending behavior patterns within each employment type. Salaried private employees with ₹50K–₹1L income who impulse-spend 'Sometimes' and have 3–5 subscriptions form the single largest actionable sub-group for BudgetLife's subscription detection feature.")
 
